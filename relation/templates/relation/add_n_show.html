@@ -1,0 +1,47 @@
+{% extends 'relation/base.html'%}
+{% block content %}  
+<div class="row">
+    <div class="col-sm-4">
+        <h3 class="text-center bg-dark text-light p-2">Add Relations</h3>      
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Add" class="btn btn-primary">
+        </form>
+        <a href="{% url 'add_relation' %}" class="btn btn-warning mt-3">Add Relation Tag</a>
+    </div>
+    <div class="col-sm-8">
+        <h3 class="text-center bg-dark text-light p-2">Record</h3>
+        {% if dis_rel %}
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">name1</th>
+                <th scope="col">Relation</th>
+                <th scope="col">name2</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for rel in dis_rel %}
+                    <tr>
+                        <td>{{rel.name1}}</td>
+                        <td>{{rel.relation}}</td>
+                        <td>{{rel.name2}}</td>
+                        <td>
+                            <a href="{% url 'update_relation' rel.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{% url 'delete_relation' rel.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+        no data
+        {% endif %}
+    </div>
+</div> 
+{% endblock content %}
